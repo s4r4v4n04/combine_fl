@@ -1,0 +1,27 @@
+comm_config:
+  discovery_type: grpc  # "mqtt" or "grpc" — must match server config
+  common:
+    client_name: workstation
+    heartbeat_timeout_s: 15
+    reconnect_interval_s: 5
+  mqtt_discovery:
+    type: client
+    broker_host: 74.225.12.221
+    broker_port: 1883
+    mqtt_sub_timeout_s: 30
+    mqtt_server_topic: advert_server
+    mqtt_client_topic: advert_client
+  grpc_discovery:  # used when discovery_type is "grpc"
+    host: 127.0.0.1
+    port: 50051
+  grpc_runtime:
+    workers: 8
+    sync_port: 50054
+    async_port: 50052
+dataset_config:
+  datasets_dir_path: /home/azureuserfl/fedml-ng-release-v1.0_sarv/fedml-ng-release-v1.0/src/data
+general_config:
+  temp_dir_path: temp/client_1
+  cleanup_model_cache_on_exit: False
+  cleanup_temp_on_exit: False
+  use_gpu: True

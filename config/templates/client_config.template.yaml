@@ -1,0 +1,40 @@
+# Template client config.
+# Copy this file and replace placeholder values before running a client.
+
+comm_config:
+  # "grpc" uses discovery.host/discovery.port for server discovery.
+  # "mqtt" uses the mqtt broker settings for discovery and heartbeats.
+  discovery_type: grpc
+
+  common:
+    client_name: <unique_client_name>
+    heartbeat_timeout_s: 15
+    reconnect_interval_s: 5
+
+  mqtt_discovery:
+    type: client
+    broker_host: <mqtt_broker_host>
+    broker_port: 1882
+    mqtt_sub_timeout_s: 30
+    mqtt_server_topic: advert_server
+    mqtt_client_topic: advert_client
+
+  grpc_discovery:
+    host: <server_discovery_host>
+    port: 50051
+
+  grpc_runtime:
+    workers: 8
+    sync_port: 50054
+    async_port: 50052
+
+dataset_config:
+  datasets_dir_path: <path_to_client_data_root>
+
+general_config:
+  temp_dir_path: <path_to_client_temp_dir>
+  # Removes only <temp_dir_path>/model_cache when the client exits.
+  cleanup_model_cache_on_exit: false
+  # Removes the entire temp_dir_path when the client exits. Takes precedence over model cache cleanup.
+  cleanup_temp_on_exit: false
+  use_gpu: false

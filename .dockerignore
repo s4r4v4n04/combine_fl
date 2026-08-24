@@ -1,0 +1,6 @@
+# By default, ignore everything
+*
+# Add exception for the directories you actually want to include in the context
+!src
+!docker/client_entrypoint.sh
+!docker/server_entrypoint.sh

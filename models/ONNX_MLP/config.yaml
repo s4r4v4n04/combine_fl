@@ -1,0 +1,9 @@
+model_details:
+  model_name: model.py
+  model_class: ONNXMLP
+backend: onnx
+model_args:
+  max_iter: 1
+  learning_rate: constant
+  eta0: 0.05
+  random_state: 0

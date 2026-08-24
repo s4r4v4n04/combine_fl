@@ -1,0 +1,177 @@
+syntax = "proto3";
+
+service EdgeService {
+
+  rpc Echo (echoMessage) returns (echoMessage) {}
+
+  rpc InitBench(InitBenchRequest) returns (InitBenchResponse) {}
+
+  rpc StartTraining(InitTrainRequest) returns (InitTrainResponse) {}
+
+  rpc StreamFile(stream UploadFile) returns (StringResponse) {}
+
+  rpc StartValidation(InitValidationRequest) returns (InitValidationResponse) {}
+
+  rpc StartInference(InferenceRequest) returns (InferenceResponse) {}
+
+  rpc ResetDetector(ResetDetectorRequest) returns (ResetDetectorResponse) {}
+
+}
+
+service DiscoveryService {
+
+  rpc Register(ClientRegistration) returns (RegistrationResponse) {}
+
+  rpc Heartbeat(stream HeartbeatPing) returns (stream HeartbeatPong) {}
+
+  rpc Deregister(DeregisterRequest) returns (DeregisterResponse) {}
+
+}
+
+message MetaData {
+  string model_id = 1;
+  string file_name = 2;
+}
+
+message UploadFile {
+  oneof request {
+    MetaData metadata = 1;
+    bytes chunk_data = 2;
+  }
+}
+
+message File{
+  bytes chunk_data=1;
+}
+
+message StringResponse{
+  string text=1;
+}
+
+message echoMessage {
+  string text=1;
+}
+
+message InitBenchRequest {
+  string model_id = 1;
+  string model_class= 2;
+  bytes model_config= 3;
+  string dataset_id = 4;
+  int32 batch_size = 5;
+  float learning_rate= 6;
+  optional bytes optimizer = 7;
+  optional bytes loss_function = 8;
+  oneof request{
+    float timeout_duration_s = 9;
+    int32 max_mini_batch_count = 10;
+  }
+}
+
+message InitTrainRequest {
+  string session_id = 1;
+  string model_id = 2;
+  string model_class= 3;
+  bytes model_config= 4;
+  string dataset_id = 5;
+  bytes model_wts= 6;
+  int32 batch_size = 7;
+  float learning_rate= 8;
+  int32 num_epochs = 9;
+  int32 round_idx = 10;
+  optional bytes optimizer = 11;
+  optional bytes loss_function = 12;
+  oneof request{
+    float timeout_duration_s = 13;
+    int32 max_mini_batch_count = 14;
+  }
+  optional bytes training_metadata = 15;
+}
+
+message InitValidationRequest{
+  string session_id = 1;
+  string model_id = 2;
+  string model_class= 3;
+  bytes model_config = 4;
+  string dataset_id = 5;
+  bytes model_wts = 6;
+  int32 batch_size = 7;
+  int32 round_idx = 8;
+  optional bytes optimizer = 9;
+  optional bytes loss_function = 10;
+}
+
+message InitBenchResponse {
+  string model_id = 1;
+  int32 num_mini_batches = 2;
+  float bench_duration_s = 3;
+}
+
+message InitTrainResponse{
+  string model_id = 1;
+  bytes model_weights = 2;
+  string client_id = 3;
+  int32 round_idx = 4;
+  bytes metrics = 5;
+}
+
+message InitValidationResponse{
+  string model_id = 1;
+  string client_id = 2;
+  int32 round_idx = 3;
+  bytes metrics = 4;
+}
+
+message ClientRegistration {
+  string client_id = 1;
+  string client_name = 2;
+  string grpc_ep = 3;
+  string client_type = 4;
+  bytes hw_info = 5;
+  bytes datasets = 6;
+  bytes models = 7;
+  bytes benchmark_info = 8;
+}
+
+message RegistrationResponse {
+  bool accepted = 1;
+  int32 heartbeat_interval_s = 2;
+}
+
+message HeartbeatPing {
+  string client_id = 1;
+  double timestamp = 2;
+}
+
+message HeartbeatPong {
+  bool acknowledged = 1;
+}
+
+message DeregisterRequest {
+  string client_id = 1;
+}
+
+message DeregisterResponse {
+  bool success = 1;
+}
+
+message InferenceRequest {
+  string session_id = 1;
+  bytes model_wts = 2;
+  int32 timestep = 3;
+}
+
+message InferenceResponse {
+  string edge_id = 1;
+  int32 timestep = 2;
+  bool drift_detected = 3;
+  bytes result_data = 4;
+}
+
+message ResetDetectorRequest {
+  string session_id = 1;
+}
+
+message ResetDetectorResponse {
+  string edge_id = 1;
+  bool success = 2;
+}

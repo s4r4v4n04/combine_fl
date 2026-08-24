@@ -1,0 +1,77 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+data/
+val_data/
+src/temp/
+scratch/
+*.py[cod]
+*$py.class
+mqtt/
+samples/
+scripts/
+client_data_CIFAR10/
+
+# C extensions
+*.so
+
+# Log files
+*.log
+nohup.out
+
+# Swap files
+*.swp
+
+# plot
+*.png
+*.jpg
+!assets/**/*.png
+!assets/**/*.jpg
+
+# ide files
+.idea
+.vscode
+
+# data files
+LSTM_metrics/
+checkpoint/
+*.data
+*.tar
+*.csv
+LSTM_OpenEIA-CA_*
+.DS_Store
+
+
+.cursor/
+
+# Local test directory (not committed)
+test/
+docs/
+
+docs/
+plan.md
+config/examples/
+.cursor/
+test/
+
+# ML artifacts / dumps / notebooks
+*.pth
+*.pt
+*.pkl
+*.ckpt
+*.ipynb
+
+# SurgeFL generated artifacts
+examples/SurgeFL/hpdc_config_logs/
+examples/SurgeFL/sfl_dumps/
+examples/SurgeFL/observed_ET_pareto/
+
+# Optional common artifact dirs
+logs/
+dumps/
+model_dumps/
+tmp_smoke/
+examples/
+src/server/clientselection/client_selection_surgefl.py
+src/server/clientselection/client_selection_odin.py
+src/server/aggregation/aggregator_surgefl_torch.pyvenv/
+flotilla_quicksetup_data.zip

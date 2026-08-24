@@ -1,0 +1,43 @@
+# Template server config for FLo server.
+# Copy this file and replace placeholder values before running the server.
+
+comm_config:
+  # "grpc" uses the discovery service below. "mqtt" uses the mqtt section.
+  discovery_type: grpc
+
+  common:
+    heartbeat_interval_s: 10
+    num_heartbeats_timestamp_cached: 10
+    max_heartbeat_miss_threshold: 3
+
+  mqtt_discovery:
+    type: server
+    broker_host: <mqtt_broker_host>
+    broker_port: 1882
+    mqtt_sub_timeout_s: 10
+    mqtt_server_topic: advert_server
+    mqtt_client_topic: advert_client
+
+  grpc_discovery:
+    port: 50051
+
+  grpc_runtime:
+    max_message_length: 1048576000
+    chunk_size_bytes: 1024
+    timeout_s: 1200000
+
+  restful:
+    host: 0.0.0.0
+    port: 12345
+
+state:
+  # Supported values: inmemory, redis, ukv.
+  state_location: inmemory
+  # For redis, use the Redis hostname. For ukv, use the RocksDB directory path.
+  state_hostname: null
+  # Only used by redis.
+  state_port: null
+
+checkpoint_dir_path: <path_to_checkpoint_dir>
+validation_data_dir_path: <path_to_validation_data_root>
+temp_dir_path: <path_to_server_temp_dir>

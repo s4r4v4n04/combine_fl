@@ -1,0 +1,78 @@
+# Template federated session config.
+# Copy this file and replace model, dataset, and backend-specific values.
+
+session_config:
+  session_id: <session_id>
+  use_gpu: false
+
+  # Strategies are explicit. Choose a module suffix such as fedavg_torch or
+  # fedavg_tensorflow; the backend field below does not affect strategy loading.
+  aggregator: fedavg_torch
+  aggregator_args: {}
+
+  client_selection: fedavg
+  client_selection_args:
+    client_fraction: 1.0
+
+  termination_condition: max_rounds
+  termination_condition_args:
+    max_rounds: 10
+
+  validation_round_interval: 1
+  checkpoint_interval: 5
+  generate_plots: false
+
+  wait_for_clients:
+    min_clients: 1
+    max_wait_s: 3600
+    poll_interval_s: 10
+
+benchmark_config:
+  model_id: <model_id>
+  model_dir: <path_to_model_dir>
+  model_class: <model_class_name>
+  dataset: <dataset_name>
+  bench_minibatch_count: 10
+  batch_size: 32
+  learning_rate: 0.001
+  timeout_duration_s: 120
+  skip_benchmark: false
+
+server_training_config:
+  model_dir: <path_to_model_dir>
+  global_model_validation_batch_size: 100
+
+client_training_config:
+  model_id: <model_id>
+  model_class: <model_class_name>
+  epochs: 1
+  dataset: <dataset_name>
+  batch_size: 32
+  learning_rate: 0.001
+  train_timeout_duration_s: 300
+
+  # Built-in defaults are backend-aware. Set *_custom to true when the model
+  # directory provides backend-specific optimizer/loss construction.
+  loss_function: crossentropy
+  loss_function_custom: true
+  optimizer: adam
+  optimizer_custom: true
+
+model_config:
+  # Supported today: pytorch, tensorflow. JAX can be added via a backend adapter.
+  backend: pytorch
+
+  use_custom_client_dataloader: false
+  custom_client_loader_args: null
+
+  use_custom_server_dataloader: false
+  custom_server_loader_args: null
+
+  use_custom_trainer: false
+  custom_trainer_args: null
+
+  use_custom_validator: false
+  custom_validator_args: null
+
+  model_args:
+    num_classes: 10
