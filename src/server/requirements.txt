@@ -4,7 +4,7 @@
 # rest of these mid-2023 pins; CPU build (this host has no GPU) from PyTorch's
 # CPU wheel index to avoid pulling ~2GB of unused CUDA packages.
 --extra-index-url https://download.pytorch.org/whl/cpu
-torch==2.0.1
+torch==2.14.0
 torchvision==0.15.2
 certifi==2023.5.7
 charset-normalizer==3.1.0
